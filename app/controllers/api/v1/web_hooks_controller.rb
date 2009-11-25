@@ -14,6 +14,6 @@ class Api::V1::WebHooksController < ApplicationController
       return render(:text => "Gem Not Found", :status => 404)
     end
     @web_hook = WebHook.create(params[:web_hook])
-    head :created
+    render :text => 'success', :status => :created
   end
 end
