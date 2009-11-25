@@ -1,6 +1,7 @@
 class Rubygem < ActiveRecord::Base
   include Pacecar
-
+  MAXIMUM_NUMBER_OF_GEMS_TO_RETURN_IN_A_LIST = 100
+  
   has_many :owners, :through => :ownerships, :source => :user
   has_many :ownerships, :dependent => :destroy
   has_many :subscribers, :through => :subscriptions, :source => :user
@@ -39,6 +40,7 @@ class Rubygem < ActiveRecord::Base
   end
 
   def self.latest(limit=5)
+    limit = (limit > MAXIMUM_NUMBER_OF_GEMS_TO_RETURN_IN_A_LIST ? MAXIMUM_NUMBER_OF_GEMS_TO_RETURN_IN_A_LIST : limit)
     with_one_version.by_created_at(:desc).limited(limit)
   end
 

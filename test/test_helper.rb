@@ -4,7 +4,6 @@ require 'test_help'
 
 FakeWeb.allow_net_connect = false
 set :environment, :test
-
 Shoulda.autoload_macros(Rails.root, "vendor/bundler_gems/gems/*")
 
 class ActiveSupport::TestCase

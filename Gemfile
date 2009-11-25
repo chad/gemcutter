@@ -19,6 +19,7 @@ gem "rack-maintenance", "0.3.0", :require_as => "rack/maintenance"
 only :test do
   gem "shoulda",      "2.10.2"
   gem "factory_girl", "1.2.3"
+  gem "nokogiri",     "1.3.3"
   gem "webrat",       "0.5.3"
   gem "cucumber",     "0.3.101"
   gem "rr",           "0.10.4"

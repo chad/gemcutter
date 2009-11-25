@@ -1,5 +1,4 @@
 require 'test_helper'
-
 class Api::V1::RubygemsControllerTest < ActionController::TestCase
   should_forbid_access_when("pushing a gem") { post :create }
 
@@ -74,6 +73,23 @@ class Api::V1::RubygemsControllerTest < ActionController::TestCase
         assert_match /not be found/, @response.body
       end
     end
+  end
+  
+  context "On GET to latest" do
+    setup do
+      @rubygems = (1..100).map do
+        gem = Factory(:rubygem)
+        Factory(:version, :rubygem => gem)
+        gem
+      end
+      get :latest, :format => "json", :limit => 8
+    end
+    
+    should_assign_to(:rubygems) { @rubygems.reverse[0..7] } 
+    should_respond_with :success
+    should "return a json hash" do
+      assert_not_nil JSON.parse(@response.body)
+    end    
   end
 
   context "with a confirmed user authenticated" do

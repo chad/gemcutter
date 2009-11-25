@@ -263,6 +263,17 @@ class RubygemTest < ActiveSupport::TestCase
       assert_equal [@rack, @thor, @dust, @json, @rake, @thin], Rubygem.latest(6)
     end
 
+    should "limit the number of latest gems it will return" do
+      (Rubygem::MAXIMUM_NUMBER_OF_GEMS_TO_RETURN_IN_A_LIST + 1).times do 
+        gem = Factory(:rubygem)
+        Factory(:version, :rubygem => gem)
+      end
+      # Something weird going on maybe with Pacecar? Can't use #size since it's lazy (and wrong).
+      count = 0
+      Rubygem.latest(3000).each{ count += 1}
+      assert_equal Rubygem::MAXIMUM_NUMBER_OF_GEMS_TO_RETURN_IN_A_LIST, count
+    end
+    
     should "only latest downloaded versions" do
       assert_equal [@thin, @rake, @json, @thor, @rack],        Rubygem.downloaded
       assert_equal [@thin, @rake, @json, @thor, @rack, @dust], Rubygem.downloaded(6)

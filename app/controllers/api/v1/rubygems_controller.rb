@@ -1,4 +1,4 @@
-class Api::V1::RubygemsController < ApplicationController
+class Api::V1::RubygemsController < ::ApplicationController
   skip_before_filter :verify_authenticity_token, :only => :create
 
   before_filter :authenticate_with_api_key, :only => :create
@@ -17,5 +17,10 @@ class Api::V1::RubygemsController < ApplicationController
     gemcutter = Gemcutter.new(current_user, request.body)
     gemcutter.process
     render :text => gemcutter.message, :status => gemcutter.code
+  end
+  
+  def latest
+    @rubygems = Rubygem.latest(params[:limit] ? Integer(params[:limit]) : 10)
+    render :json => @rubygems.map(&:to_json)
   end
 end

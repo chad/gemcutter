@@ -10,6 +10,10 @@ ActionController::Routing::Routes.draw do |map|
       v1.resource  :api_key,
                    :only         => [:show, :reset],
                    :member       => {:reset => :put}
+      v1.latest   "/gems/latest",
+                    :controller   => "rubygems",
+                    :action       => "latest",
+                    :format       => "json"
       v1.json_gem  "/gems/:id.json",
                    :controller   => "rubygems",
                    :action       => "show",
