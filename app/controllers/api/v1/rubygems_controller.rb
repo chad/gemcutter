@@ -20,7 +20,7 @@ class Api::V1::RubygemsController < ::ApplicationController
   end
   
   def latest
-    @rubygems = Rubygem.latest(params[:limit] ? Integer(params[:limit]) : 10)
+    @rubygems = Rubygem.latest(params[:limit])
     render :json => @rubygems.map(&:to_json)
   end
 end
